@@ -1,0 +1,825 @@
+[
+    {
+        "university_name": "University of Dhaka",
+        "university_name_short": "DU",
+        "university_name_bn": "ঢাকা বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "ঢাবি",
+        "units": [
+            {
+                "unit_name": "Ka Unit",
+                "unit_name_bn": "ক ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 8,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Kha Unit",
+                "unit_name_bn": "খ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Humanity",
+                        "total_points": 7,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Ga Unit",
+                "unit_name_bn": "গ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Business Studies",
+                        "total_points": 7.5,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Gha Unit",
+                "unit_name_bn": "ঘ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 8,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    },
+                    {
+                        "group": "Humanity",
+                        "total_points": 7.0,
+                        "requirements_text": "Not allowed less than GPA 3.00 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.০০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    },
+                    {
+                        "group": "Business Studies",
+                        "total_points": 7.5,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Cha Unit",
+                "unit_name_bn": "চ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 6.5,
+                        "requirements_text": "Not allowed less than GPA 3.00 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.০০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "university_name": "BUET",
+        "university_name_short": "BUET",
+        "university_name_bn": "বাংলাদেশ প্রকৌশল বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "বাপ্রবি",
+        "units": [
+            {
+                "unit_name": "Ka Unit",
+                "unit_name_bn": "ক ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 22.50,
+                        "requirements_text": "Minimum GPA in Physics, Chemistry and Math 4.50",
+                        "requirements_text_bn": "পদার্থ বিজ্ঞান, রসায়ন এবং গণিতে কমপক্ষে ৪.৫০ লাগবে",
+                        "items" : [
+                            {
+                                "item_name": "Physics",
+                                "item_name_bn": "পদার্থ বিজ্ঞান",
+                                "point": 0,
+                                "min_point": 4.5
+                            },
+                            {
+                                "item_name": "Chemistry",
+                                "item_name_bn": "রসায়ন",
+                                "point": 0,
+                                "min_point": 4.5
+                            },
+                            {
+                                "item_name": "Math",
+                                "item_name_bn": "গণিত",
+                                "point": 0,
+                                "min_point": 4.5
+                            },
+                            {
+                                "item_name": "Bangla",
+                                "item_name_bn": "বাংলা",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "English",
+                                "item_name_bn": "ইংরেজী",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "university_name": "Rajshahi University",
+        "university_name_short": "RU",
+        "university_name_bn": "রাজশাহী  বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "রাবি",
+        "units": [
+            {
+                "unit_name": "Ka Unit",
+                "unit_name_bn": "ক ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Humanity",
+                        "total_points": 7,
+                        "requirements_text": "Not allowed less than GPA 3.00 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.০০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Kha Unit",
+                "unit_name_bn": "খ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Business Studies",
+                        "total_points": 7.5,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "Ga Unit",
+                "unit_name_bn": "গ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 8.0,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "university_name": "University of Chittagong",
+        "university_name_short": "CU",
+        "university_name_bn": "চট্টগ্রাম বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "চবি",
+        "units": [
+            {
+                "unit_name": "A Unit",
+                "unit_name_bn": "এ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 7.5,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "B Unit",
+                "unit_name_bn": "বি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Huminity",
+                        "total_points": 7.0,
+                        "requirements_text": "Not allowed less than GPA 3.25 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.25 এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "C Unit",
+                "unit_name_bn": "সি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Business Study",
+                        "total_points": 7.5,
+                        "requirements_text": "Not allowed less than GPA 3.50 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "D Unit",
+                "unit_name_bn": "ডি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 7.0,
+                        "requirements_text": "Not allowed less than GPA 3.25 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.২৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "B1 Unit",
+                "unit_name_bn": "বি১ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 7.0,
+                        "requirements_text": "Not allowed less than GPA 3.25 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.২৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "D1 Unit",
+                "unit_name_bn": "ডি১ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 7.0,
+                        "requirements_text": "Not allowed less than GPA 3.25 each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.২৫ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "university_name": "Jahangirnagar University",
+        "university_name_short": "JU",
+        "university_name_bn": "জাহাঙ্গিরনগর বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "জাবি",
+        "units": [
+            {
+                "unit_name": "A Unit",
+                "unit_name_bn": "এ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 7.5,
+                        "requirements_text": "Needs to have at least 3.5 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "B Unit",
+                "unit_name_bn": "বি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 7.0,
+                        "requirements_text": "Needs to have at least 3.5 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "C Unit",
+                "unit_name_bn": "সি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 6.0,
+                        "requirements_text": "Needs to have at least 3.00 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.০০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "C1 Unit",
+                "unit_name_bn": "সি১ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 6.0,
+                        "requirements_text": "Needs to have at least 3.00 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.০০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "D Unit",
+                "unit_name_bn": "ডি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 7.0,
+                        "requirements_text": "Needs to have at least 3.50 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "E Unit",
+                "unit_name_bn": "ই ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 7.0,
+                        "requirements_text": "Needs to have at least 3.5 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "F Unit",
+                "unit_name_bn": "এফ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "All group",
+                        "total_points": 8.0,
+                        "requirements_text": "Needs to have at least 3.5 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "G Unit",
+                "unit_name_bn": "জি ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 8.5,
+                        "requirements_text": "Needs to have at least 4.0 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ 4.0 থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 4.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 4.0
+                            }
+                        ] 
+                    },
+                    {
+                        "group": "Huminity & Business Study",
+                        "total_points": 8.0,
+                        "requirements_text": "Needs to have at least 4.0 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ 4.0 থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 4.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 4.0
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "H Unit",
+                "unit_name_bn": "এইচ ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 8.0,
+                        "requirements_text": "Needs to have at least 3.5 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.৫০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.5
+                            }
+                        ] 
+                    }
+                ]
+            },
+            {
+                "unit_name": "I Unit",
+                "unit_name_bn": "আই ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science & Business Study",
+                        "total_points": 7.5,
+                        "requirements_text": "Needs to have at least 3.00 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.০০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            }
+                        ] 
+                    },
+                    {
+                        "group": "Huminity",
+                        "total_points": 7.0,
+                        "requirements_text": "Needs to have at least 3.00 in both SSC & HSC",
+                        "requirements_text_bn": "মাধ্যমিক ও উচ্চমাধ্যমিক উভয় পরীক্ষায় পৃথকভাবে ন্যূনতম জিপিএ ৩.০০ থাকতে হবে",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 3.0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "university_name": "All Agricultural University",
+        "university_name_short": "Agri",
+        "university_name_bn": "সকল কৃষি বিশ্ববিদ্যালয়",
+        "university_name_bn_short": "কৃষি",
+        "units": [
+            {
+                "unit_name": "Ka Unit",
+                "unit_name_bn": "ক ইউনিট",
+                "requiremets": [
+                    {
+                        "group": "Science",
+                        "total_points": 7.0,
+                        "requirements_text": "Not Acceptable minimum GPA 3.00 in each subject",
+                        "requirements_text_bn": "প্রত্যেক বিষয়ে জিপিএ ৩.০০ এর নিচে গ্রহনযোগ্য না",
+                        "items" : [
+                            {
+                                "item_name": "SSC",
+                                "item_name_bn": "এস এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            },
+                            {
+                                "item_name": "HSC",
+                                "item_name_bn": "এইচ এস সি",
+                                "point": 0,
+                                "min_point": 0
+                            }
+                        ] 
+                    }
+                ]
+            }
+        ]
+    }
+    
+]
