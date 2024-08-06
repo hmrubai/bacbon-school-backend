@@ -16,7 +16,7 @@ class User extends Authenticatable implements JWTSubject
         'name', 'user_code','email', 'password','institute','mobile_number','address','current_course_id', 'image', 'gender', 'points','fcm_id', 'refference_id', 'university_id', 'isLampFormSubmitted', 'isBangladeshi', 'is_applied_scholarship',
         'lamp_aplication_date', 'isCompleteRegistration', 'isSetPassword', 'is_staff', 'is_e_edu_3', 'is_e_edu_4', 'is_e_edu_c_unit', 'is_e_edu_5', 'is_chandpur', 'e_edu_id',
         'b_unit_start_date','c_unit_start_date', 'd_unit_start_date', 'c_unit_optional_subject_id','division_id','district_id','thana_id','device_id','is_c_unit_purchased','is_b_unit_purchased','is_d_unit_purchased','is_bae_3','is_bae_4','is_jicf_teacher','is_e_edu_admission_2022',
-        'user_type'
+        'user_type', 'experiance', 'bio'
     ];
 
     protected $hidden = [

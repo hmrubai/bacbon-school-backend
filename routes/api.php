@@ -873,6 +873,17 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('paid-course/written-details/{paid_course_result_id}', 'PaidCourseController@getPaidCourseWrittenResultDetails');
 
     Route::post('paid-course/update-written-marks', 'PaidCourseController@getPaidCourseWrittenMarksUpdate');
+
+
+    //LC Integration
+    Route::post('lc/add-update-teacher', 'TeacherController@addNewTeacher');
+    Route::get('lc/teachers', 'TeacherController@teacherList');
+
+    Route::post('lc/assign-teacher', 'TeacherController@assignTeacher');
+    Route::get('lc/paid-course-mentors/{paid_course_id}', 'TeacherController@teacherListbyCourseID');
+    Route::post('lc/paid-course-remove-mentor', 'TeacherController@removeMentorFromPaidCourse');
+    
+
 });
 
 Route::get('getSelectionTestResult/{id}', 'SelectionTestController@getSelectionTestResult');

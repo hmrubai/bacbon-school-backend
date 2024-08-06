@@ -15,4 +15,5 @@ class ResponseObject
     public $status;
     public $messages = null;
     public $result = null;
+    public $data = null;
 }
