@@ -21,7 +21,8 @@ use App\PaidCourseQuizSubject;
 use App\PaidCourseMaterial;
 use App\PaidCourseParticipant;
 use App\PaidCourseParticipantQuizAccess;
-use App\PaidCourseQuizParticipationCount;
+use App\PaidCourseQuizParticipationCount;;
+use App\PaidCourseStudentMapping;
 use App\PaidCourseQuizQuestion;
 use App\PaidCourseSubject;
 use App\ResultPaidCouresQuiz;
@@ -113,6 +114,106 @@ class PaidCourseController extends Controller
             }
         }
         return FacadeResponse::json($all_course);
+    }
+
+    public function getPaidCourseStudentList(Request $request){
+        $students = PaidCourseParticipant::select("users.id", "users.name", "users.mobile_number", "users.email")
+        ->leftJoin('users', 'users.id', 'paid_course_participants.user_id')
+        ->where('paid_course_participants.paid_course_id', $request->paid_course_id)
+        ->get();
+
+        $response = new ResponseObject;
+        $response->status = $response::status_ok;
+        $response->messages = "Students listed successfully";
+        $response->data = $students;
+        return response()->json($response);
+    }
+
+    public function paidCourseMapping(Request $request){
+        $response = new ResponseObject;
+        try {
+            DB::beginTransaction();
+            if (!$request->paid_course_id) {
+                $response->status = $response::status_fail;
+                $response->messages = "Please, Select Paid Course!";
+                $response->data = [];
+                return response()->json($response);
+            }
+
+            if(!empty($request->map_data)){
+                $mapping = [];
+                foreach ($request->map_data as $key => $value) {
+
+                    $is_exist = PaidCourseStudentMapping::where('paid_course_id', $request->paid_course_id)
+                        ->where('student_id', $value['student_id'])
+                        ->where('mentor_id', $value['mentor_id'])
+                        ->first();
+
+                    if(empty($is_exist)){
+                        $mapping[] = [
+                            'paid_course_id' => $request->paid_course_id,
+                            'student_id' => $value['student_id'],
+                            'mentor_id' => $value['mentor_id'],
+                            'is_active' => true,
+                        ];
+                    }
+                }
+
+                PaidCourseStudentMapping::insert($mapping);
+                DB::commit();
+
+                $response->status = $response::status_ok;
+                $response->messages = "Mapping has been inserted successfully!";
+                $response->data = [];
+                return response()->json($response);
+            }
+
+        } catch (Exception $e) {
+            DB::rollback();
+            $response->status = $response::status_fail;
+            $response->messages = $e->getMessage();
+            $response->data = [];
+            return response()->json($response);
+        }
+    }
+
+    public function getPaidCourseMappingList(Request $request)
+    {
+        $response = new ResponseObject;
+
+        $mapping_data = PaidCourseStudentMapping::select(
+            'paid_course_student_mappings.id',
+            'paid_course_student_mappings.paid_course_id',
+            'paid_course_student_mappings.is_active',
+            'students.id as student_id',
+            'students.name as student_name',
+            'students.mobile_number as student_mobile_number',
+
+            'teachers.id as mentor_id',
+            'teachers.name as mentor_name',
+            'teachers.mobile_number as mentor_mobile_number'
+        )
+        ->leftJoin('users as students', 'paid_course_student_mappings.student_id', '=', 'students.id')
+        ->leftJoin('users as teachers', 'paid_course_student_mappings.mentor_id', '=', 'teachers.id')
+        ->where('paid_course_student_mappings.paid_course_id', $request->paid_course_id)
+        ->get();
+
+        $response->status = $response::status_ok;
+        $response->messages = "Mapping list successfull!";
+        $response->data = $mapping_data;
+        return response()->json($response);
+    }
+
+    public function removeMappingFromPaidCourse(Request $request)
+    {
+        $response = new ResponseObject;
+
+        PaidCourseStudentMapping::where('id', $request->id)->delete();
+
+        $response->status = $response::status_ok;
+        $response->messages = "Mapping Deleted successfully";
+        $response->data = [];
+        return response()->json($response);
     }
 
     public function getPaidCourseFilterListForMobile(Request $request)
@@ -3666,12 +3767,4 @@ class PaidCourseController extends Controller
 
 }
 
-
-// ALTER TABLE `paid_course_quiz_questions` ADD `question_image` VARCHAR(255) NULL AFTER `question`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option1_image` VARCHAR(255) NULL AFTER `option1`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option2_image` VARCHAR(255) NULL AFTER `option2`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option3_image` VARCHAR(255) NULL AFTER `option3`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option4_image` VARCHAR(255) NULL AFTER `option4`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option5_image` VARCHAR(255) NULL AFTER `option5`;
-// ALTER TABLE `paid_course_quiz_questions` ADD `option6_image` VARCHAR(255) NULL AFTER `option6`;
   
