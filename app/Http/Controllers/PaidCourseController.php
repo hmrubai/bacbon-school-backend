@@ -117,7 +117,21 @@ class PaidCourseController extends Controller
     }
 
     public function getPaidCourseStudentList(Request $request){
-        $students = PaidCourseParticipant::select("users.id", "users.name", "users.mobile_number", "users.email")
+        $students = PaidCourseParticipant::select("paid_course_participants.id as participant_id", "paid_course_participants.is_lc_activated", "users.id", "users.name", "users.mobile_number", "users.email")
+        ->leftJoin('users', 'users.id', 'paid_course_participants.user_id')
+        ->where('paid_course_participants.paid_course_id', $request->paid_course_id)
+        ->where('is_lc_activated', true)
+        ->get();
+
+        $response = new ResponseObject;
+        $response->status = $response::status_ok;
+        $response->messages = "Students listed successfully";
+        $response->data = $students;
+        return response()->json($response);
+    }
+    
+    public function getPaidCourseLCStudentList(Request $request){
+        $students = PaidCourseParticipant::select("paid_course_participants.id as participant_id", "paid_course_participants.is_lc_activated", "users.id", "users.name", "users.mobile_number", "users.email")
         ->leftJoin('users', 'users.id', 'paid_course_participants.user_id')
         ->where('paid_course_participants.paid_course_id', $request->paid_course_id)
         ->get();
@@ -126,6 +140,35 @@ class PaidCourseController extends Controller
         $response->status = $response::status_ok;
         $response->messages = "Students listed successfully";
         $response->data = $students;
+        return response()->json($response);
+    }
+
+    public function activateLC(Request $request)
+    {
+        $response = new ResponseObject;
+
+        PaidCourseParticipant::where('id', $request->id)->update([
+            "is_lc_activated" => true
+        ]);
+
+        $response->status = $response::status_ok;
+        $response->messages = "LC Activated successfully";
+        $response->data = [];
+        return response()->json($response);
+    }
+
+
+    public function deactivateLC(Request $request)
+    {
+        $response = new ResponseObject;
+
+        PaidCourseParticipant::where('id', $request->id)->update([
+            "is_lc_activated" => false
+        ]);
+
+        $response->status = $response::status_ok;
+        $response->messages = "LC deactivated successfully";
+        $response->data = [];
         return response()->json($response);
     }
 
