@@ -785,6 +785,19 @@ Route::group(['prefix' => 'mobile'], function () {
 
     /** Paid Course Coupon  */
     Route::post('check-coupon-validity', 'PaidCourseController@checkCouponValidityFromMobile');
+
+    /** LC Integration */
+    Route::get('lc/get-mentor-course-list/{user_id}', 'ClassScheduleController@mentorCourseList');
+    Route::get('lc/student-list/{paid_course_id}/{user_id}', 'ClassScheduleController@mentorStudentList');
+    Route::get('lc/class-schedule-list/{mapping_id}', 'ClassScheduleController@mentorClassScheduleList');
+    Route::post('lc/add-class-schedule', 'ClassScheduleController@addClassSchedule');
+    Route::post('lc/update-class-schedule', 'ClassScheduleController@updateClassSchedule');
+    Route::post('lc/delete-class-schedule', 'ClassScheduleController@deleteClassSchedule');
+    Route::get('lc/student-class-schedule-list/{user_id}', 'ClassScheduleController@studentClassScheduleList');
+    
+    Route::post('lc/update-zoom-link', 'ClassScheduleController@updateZoomLink');
+    Route::get('lc/get-zoom-details/{user_id}', 'ClassScheduleController@getZoomLink');
+    
 });
 
 Route::post('keep-lecture-video', 'LectureController@keepLectureVideo');

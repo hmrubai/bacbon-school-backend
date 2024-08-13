@@ -44,8 +44,8 @@ class PaidCourse extends Model {
         'sort' => 'integer',
         'is_active' => 'boolean',
         'has_trail' => 'boolean',
-        'is_cunit' => 'boolean'
-        
+        'is_cunit' => 'boolean',
+        'is_lc_enable' => 'boolean',
     ];
 
 }

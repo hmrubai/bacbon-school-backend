@@ -21,7 +21,7 @@ use App\PaidCourseQuizSubject;
 use App\PaidCourseMaterial;
 use App\PaidCourseParticipant;
 use App\PaidCourseParticipantQuizAccess;
-use App\PaidCourseQuizParticipationCount;;
+use App\PaidCourseQuizParticipationCount;
 use App\PaidCourseStudentMapping;
 use App\PaidCourseQuizQuestion;
 use App\PaidCourseSubject;
@@ -102,14 +102,17 @@ class PaidCourseController extends Controller
 
             if ($user_id) {
                 $is_purchased = PaidCourseParticipant::where('user_id', $user_id)
-                    ->where('paid_course_id', $item->id)->get();
+                    ->where('paid_course_id', $item->id)->first();
 
-                if (sizeof($is_purchased)) {
+                if (!empty($is_purchased)) {
+                    $item->is_lc_activated = $is_purchased->is_lc_activated;
                     $item->is_purchased = true;
                 } else {
+                    $item->is_lc_activated = false;
                     $item->is_purchased = false;
                 }
             } else {
+                $item->is_lc_activated = false;
                 $item->is_purchased = false;
             }
         }
@@ -286,15 +289,18 @@ class PaidCourseController extends Controller
 
             if ($user_id) {
                 $is_purchased = PaidCourseParticipant::where('user_id', $user_id)
-                    ->where('paid_course_id', $item->id)->get();
+                    ->where('paid_course_id', $item->id)->first();
 
-                if (sizeof($is_purchased)) {
+                if (!empty($is_purchased)) {
+                    $item->is_lc_activated = $is_purchased->is_lc_activated;
                     $item->is_purchased = true;
                 } else {
                     $item->is_purchased = false;
+                    $item->is_lc_activated = false;
                 }
             } else {
                 $item->is_purchased = false;
+                $item->is_lc_activated = false;
             }
         }
         return FacadeResponse::json($all_course);
@@ -2124,14 +2130,16 @@ class PaidCourseController extends Controller
         $course->is_fully_paid = $course->is_fully_paid ? true : false;
         $course->is_trial_taken = $course->is_trial_taken ? true : false;
         $course->is_trial_expired = $course->is_trial_taken ? ($course->trial_expiry_date < $date ? true : false) : null;
+        $course->is_lc_activated = false;
 
         if ($user_id) {
             $is_purchased = PaidCourseParticipant::where('user_id', $user_id)
-                ->where('paid_course_id', $paid_course_id)->get();
+                ->where('paid_course_id', $paid_course_id)->first();
 
-            if (sizeof($is_purchased)) {
+            if (!empty($is_purchased)) {
                 $course->is_active = true;
                 $course->is_fully_paid = true;
+                $course->is_lc_activated = $is_purchased->is_lc_activated;
             }
         }
 
