@@ -797,7 +797,16 @@ Route::group(['prefix' => 'mobile'], function () {
     
     Route::post('lc/update-zoom-link', 'ClassScheduleController@updateZoomLink');
     Route::get('lc/get-zoom-details/{user_id}', 'ClassScheduleController@getZoomLink');
-    
+
+    //Join & End class
+    Route::post('lc/start-live-class', 'ClassScheduleController@startLiveClass');
+    Route::post('lc/end-live-class', 'ClassScheduleController@endLiveClass');
+    Route::post('lc/student-end-live-class', 'ClassScheduleController@studentEndLiveClass');
+    Route::post('lc/join-live-class', 'ClassScheduleController@studentJoinClass');
+
+    Route::get('lc/student-join-history/{schedule_id}', 'ClassScheduleController@studentClassJoinHistory');
+    Route::get('lc/mentor-ongoing-class-list/{user_id}', 'ClassScheduleController@mentorOngoingClassList');
+    Route::get('lc/mentor-completed-class-list', 'ClassScheduleController@mentorCompletedClassList');    
 });
 
 Route::post('keep-lecture-video', 'LectureController@keepLectureVideo');
