@@ -818,6 +818,9 @@ Route::post('jwt-login', 'APILoginController@jwtLogin');
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('/jwt-test', 'SelectionTestController@jwtTest');
 
+    Route::get('dashboard-analytics', 'DashboardController@dashboardCourseAnalytics');
+    Route::get('payment-analytics', 'DashboardController@paymentAnalytics');
+
     Route::get('selectionTestSummary', 'SelectionTestController@SelectionTestSummary');
     Route::get('getAllSelectionTestList', 'SelectionTestController@getAllSelectionTestList');
     Route::post('createSelectionTest', 'SelectionTestController@createSelectionTest');
@@ -913,6 +916,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('lc/mapping-list/{paid_course_id}', 'PaidCourseController@getPaidCourseMappingList');
     Route::post('lc/remove-mapping', 'PaidCourseController@removeMappingFromPaidCourse');
 
+    Route::get('lc/completed-class-list', 'ClassScheduleController@adminCompletedClassList');
 });
 
 Route::get('getSelectionTestResult/{id}', 'SelectionTestController@getSelectionTestResult');

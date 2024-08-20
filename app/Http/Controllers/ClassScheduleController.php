@@ -595,6 +595,60 @@ class ClassScheduleController extends Controller
         return FacadeResponse::json($response);
     }
 
+    public function adminCompletedClassList(Request $request)
+    {
+        $response = new ResponseObject;
+        $course_id = $request->course_id ? $request->course_id : 0;
+        $mentor_id = $request->mentor_id ? $request->mentor_id : 0;
+        $student_id = $request->student_id ? $request->student_id : 0;
+        $from = $request->from ? $request->from.' 00:00:00' : '';
+        $to = $request->to ? $request->to.' 23:59:59' : '';
+
+        
+
+        $class = PaidCourseClassSchedule::select(
+            'paid_course_class_schedules.*',
+            'paid_courses.name as course_name_en',
+            'paid_courses.name_bn as course_name_bn',
+            'students.name as student_name',
+            'students.mobile_number as student_mobile_number',
+            'teachers.name as mentor_name',
+            'teachers.mobile_number as mentor_mobile_number'
+        )
+        
+            ->leftJoin('paid_courses', 'paid_courses.id', 'paid_course_class_schedules.paid_course_id')
+            ->leftJoin('users as students', 'paid_course_class_schedules.student_id', '=', 'students.id')
+            ->leftJoin('users as teachers', 'paid_course_class_schedules.mentor_id', '=', 'teachers.id')
+            ->where('paid_course_class_schedules.paid_course_id', $course_id)
+            ->where('paid_course_class_schedules.mentor_id', $mentor_id)
+            ->where('paid_course_class_schedules.has_completed', true)
+            ->whereBetween('paid_course_class_schedules.schedule_datetime', [$from, $to])
+            ->when($student_id, function ($query, $student_id) {
+                return $query->where('paid_course_class_schedules.student_id', $student_id);
+            })
+            ->get();
+        
+        $times = [];
+        foreach ($class as $key => $item) {
+            $item->start_time_gmt = $this->addHour($item->start_time, 6);
+            $item->end_time_gmt = $this->addHour($item->end_time, 6);
+            $item->total_minutes = $this->getTimeDifference($item->start_time, $item->end_time);
+            array_push($times, $this->getTimeDifference($item->start_time, $item->end_time));
+        }
+
+        $response_data = [
+            "total_time" => $this->calculateTime($times),
+            "list" => $class
+        ];
+
+        $response->status = $response::status_ok;
+        $response->messages = "Successful";
+        $response->result = $response_data;
+        return FacadeResponse::json($response);
+
+        return $this->apiResponse($response, 'Successful', true, 200);
+    }
+
     public function updateZoomLink(Request $request)
     {
         $response = new ResponseObject;
