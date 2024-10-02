@@ -18,14 +18,14 @@ class TeacherController extends Controller
         $response = new ResponseObject;
 
         if(!$request->id){
-            $is_exist_email = User::where('email', '=', $request->email)->first();
+            $is_exist_email = User::where('email', '=', $request->email)->where('user_type', 'Teacher')->first();
             if (!empty($is_exist_email)) {
                 $response->status = $response::status_fail;
                 $response->messages = "Please, User Already exist!";
                 $response->data = [];
                 return response()->json($response);
             }
-            $is_exist_mobile = User::where('mobile_number', '=', $request->mobile_number)->first();
+            $is_exist_mobile = User::where('mobile_number', '=', $request->mobile_number)->where('user_type', 'Teacher')->first();
             if (!empty($is_exist_mobile)) {
                 $response->status = $response::status_fail;
                 $response->messages = "Please, User Already exist!";
@@ -38,38 +38,56 @@ class TeacherController extends Controller
             DB::beginTransaction();
 
             if(!$request->id){
-                $user = User::create([
-                    'name' => $request->name ? $request->name : $request->name,
-                    'email' => $request->email ? $request->email : $request->email,
-                    'institute' => $request->institute ? $request->institute : $request->institute,
-                    'experiance' => $request->experiance ? $request->experiance : $request->experiance,
-                    'mobile_number' => $request->mobile_number ? $request->mobile_number : $request->mobile_number,
-                    'bio' => $request->bio ? $request->bio : $request->bio,
-                    'user_type' => "Teacher"
-                ]);
-    
-                $user_code = 'BS' . (1000 + $user->id);
-                $user->update(['user_code' => $user_code]);
-    
-                $inserted_user = User::where('mobile_number', '=', $request->mobile_number)->first();
 
-                DB::commit();
+                $existing_user = User::where('mobile_number', '=', $request->mobile_number)->first();
+
+                if(!empty($existing_user)){
+                    User::where('id', $existing_user->id)->update([
+                        'user_type' => "Teacher"
+                    ]);
+                    DB::commit();
+                }
+                else{
+                    $user = User::create([
+                        'name' => $request->name ? $request->name : $request->name,
+                        'email' => $request->email ? $request->email : $request->email,
+                        'institute' => $request->institute ? $request->institute : $request->institute,
+                        'experiance' => $request->experiance ? $request->experiance : $request->experiance,
+                        'mobile_number' => $request->mobile_number ? $request->mobile_number : $request->mobile_number,
+                        'bio' => $request->bio ? $request->bio : $request->bio,
+                        'user_type' => "Teacher"
+                    ]);
+        
+                    $user_code = 'BS' . (1000 + $user->id);
+                    $user->update(['user_code' => $user_code]);
     
+                    DB::commit();
+                }
+
                 $response->status = $response::status_ok;
                 $response->messages = "Teacher has been added successfully!";
-                $response->data = $inserted_user;
+                $response->data = [];
                 return response()->json($response);
                 
             }else{
-                
-                $update_user = User::where('id', $request->id)->update([
-                    'name' => $request->name ? $request->name : $request->name,
-                    'email' => $request->email ? $request->email : $request->email,
-                    'institute' => $request->institute ? $request->institute : $request->institute,
-                    'experiance' => $request->experiance ? $request->experiance : $request->experiance,
-                    'mobile_number' => $request->mobile_number ? $request->mobile_number : $request->mobile_number,
-                    'bio' => $request->bio ? $request->bio : $request->bio
-                ]);
+
+                $existing_user = User::where('mobile_number', '=', $request->mobile_number)->first();
+
+                if(!empty($existing_user)){
+                    User::where('id', $existing_user->id)->update([
+                        'user_type' => "Teacher"
+                    ]);
+                    DB::commit();
+                }else{
+                    $update_user = User::where('id', $request->id)->update([
+                        'name' => $request->name ? $request->name : $request->name,
+                        'email' => $request->email ? $request->email : $request->email,
+                        'institute' => $request->institute ? $request->institute : $request->institute,
+                        'experiance' => $request->experiance ? $request->experiance : $request->experiance,
+                        'mobile_number' => $request->mobile_number ? $request->mobile_number : $request->mobile_number,
+                        'bio' => $request->bio ? $request->bio : $request->bio
+                    ]);
+                }
 
                 DB::commit();
 
@@ -86,6 +104,70 @@ class TeacherController extends Controller
             $response->data = [];
             return response()->json($response);
         }
+    }
+
+    public function teacherUploadExcel(Request $request){
+        $response = new ResponseObject;
+
+        if(!sizeof($request->teacher)){
+            $response->status = $response::status_fail;
+            $response->messages = "Please, Select teachers";
+            $response->data = [];
+            return response()->json($response);
+        }
+
+        $inserted_data = [];
+
+        foreach ($request->teacher as $item) {
+
+            $existing_user = User::where('mobile_number', '=', $item['mobile'])->first();
+            $existing_user_email = User::where('email', '=', $item['email'])->first();
+
+            if(!empty($existing_user)){
+                User::where('id', $existing_user->id)->update([
+                    'user_type' => "Teacher"
+                ]);
+            }
+            else if(!empty($existing_user_email)){
+                User::where('id', $existing_user_email->id)->update([
+                    'user_type' => "Teacher"
+                ]);
+            }
+            else{
+
+                $user = User::create([
+                    'name' => $item['name'],
+                    'email' => $item['email'] ?? null,
+                    'institute' => $item['institute'] ?? null,
+                    'experiance' => $item['experiance'] ?? null,
+                    'mobile_number' => $item['mobile'] ?? null,
+                    'bio' => $item['success_story'] ?? null,
+                    'user_type' => "Teacher",
+                ]);
+
+                $user_code = 'BS' . (1000 + $user->id);
+                $user->update(['user_code' => $user_code]);
+            }
+
+            // array_push($inserted_data, [
+            //     'name' => $item['name'],
+            //     'email' => $item['email'] ?? null,
+            //     'institute' => $item['institute'] ?? null,
+            //     'experiance' => $item['experiance'] ?? null,
+            //     'mobile_number' => $item['mobile'] ?? null,
+            //     'bio' => $item['success_story'] ?? null,
+            //     'user_type' => "Teacher"
+            // ]);
+        }
+
+        // DB::beginTransaction();
+        // User::insert($inserted_data);
+        // DB::commit();
+        
+        $response->status = $response::status_ok;
+        $response->messages = "Teacher listed successfully";
+        $response->data = [];
+        return response()->json($response);
     }
 
     public function teacherList(Request $request){

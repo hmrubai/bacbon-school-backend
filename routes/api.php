@@ -903,6 +903,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     //LC Integration
     Route::post('lc/add-update-teacher', 'TeacherController@addNewTeacher');
     Route::get('lc/teachers', 'TeacherController@teacherList');
+    Route::post('lc/upload-teacher-excel', 'TeacherController@teacherUploadExcel');
 
     Route::post('lc/assign-teacher', 'TeacherController@assignTeacher');
     Route::get('lc/paid-course-mentors/{paid_course_id}', 'TeacherController@teacherListbyCourseID');

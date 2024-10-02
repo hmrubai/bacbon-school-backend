@@ -233,6 +233,12 @@ class ClassScheduleController extends Controller
             $response->messages = "You can not join this class! Because this class has not been started yet!!";
             $response->result = null;
             return FacadeResponse::json($response);
+        }else{
+            if(!$schedule_details->student_start_time){
+                $schedule_details->update([
+                    "student_start_time" => date("Y-m-d H:i:s")
+                ]);
+            }
         }
 
         StudentJoinHistory::create([
@@ -629,15 +635,29 @@ class ClassScheduleController extends Controller
             ->get();
         
         $times = [];
+        $actual_time = [];
         foreach ($class as $key => $item) {
             $item->start_time_gmt = $this->addHour($item->start_time, 6);
             $item->end_time_gmt = $this->addHour($item->end_time, 6);
             $item->total_minutes = $this->getTimeDifference($item->start_time, $item->end_time);
-            array_push($times, $this->getTimeDifference($item->start_time, $item->end_time));
+            $get_time = $this->getTimeDifference($item->start_time, $item->end_time);
+            array_push($times, $get_time);
+
+            $is_time_exceeded = $this->isClassTimeExceeded($get_time);
+            $item->has_time_exceeded = $is_time_exceeded;
+            if($is_time_exceeded){
+                $item->total_actual_minutes = "01:30:00";
+                array_push($actual_time, "01:30:00");
+            }else{
+                array_push($actual_time, $get_time);
+                $item->total_actual_minutes = $get_time;
+            }
+
         }
 
         $response_data = [
             "total_time" => $this->calculateTime($times),
+            "actual_total_time" => $this->calculateTime($actual_time),
             "list" => $class
         ];
 
@@ -686,7 +706,7 @@ class ClassScheduleController extends Controller
         
         if(empty($zoomLink)){
            $zoomLink = (object)[ 
-               "id" => $user_id,
+               "id" => (int)$user_id,
                "live_link" => "",
                "mentor_id" => $mentor->id,
                "is_active" => true,
@@ -730,5 +750,19 @@ class ClassScheduleController extends Controller
         $s = $totaltime - ($m * 60);
         
         return "$h:$m:$s";
+    }
+
+    public function isClassTimeExceeded($classStartTime)
+    {
+        // Convert the time strings into Carbon instances
+        $meetingTime = Carbon::createFromFormat('H:i:s', $classStartTime);
+        $thresholdTime = Carbon::createFromFormat('H:i:s', '01:30:00');
+
+        // Compare the times
+        if ($meetingTime->greaterThan($thresholdTime)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
