@@ -619,7 +619,9 @@ class ClassScheduleController extends Controller
             'students.name as student_name',
             'students.mobile_number as student_mobile_number',
             'teachers.name as mentor_name',
-            'teachers.mobile_number as mentor_mobile_number'
+            'teachers.mobile_number as mentor_mobile_number',
+            'paid_course_class_schedules.student_start_time',
+            'paid_course_class_schedules.student_end_time'
         )
         
             ->leftJoin('paid_courses', 'paid_courses.id', 'paid_course_class_schedules.paid_course_id')
@@ -635,16 +637,55 @@ class ClassScheduleController extends Controller
             ->get();
         
         $times = [];
+        $student_times = [];
         $actual_time = [];
+        $student_actual_time = [];
         foreach ($class as $key => $item) {
             $item->start_time_gmt = $this->addHour($item->start_time, 6);
             $item->end_time_gmt = $this->addHour($item->end_time, 6);
-            $item->total_minutes = $this->getTimeDifference($item->start_time, $item->end_time);
-            $get_time = $this->getTimeDifference($item->start_time, $item->end_time);
-            array_push($times, $get_time);
+
+            if($item->start_time){
+                $item->start_time_gmt = $this->addHour($item->start_time, 6);
+            }
+
+            if($item->end_time){
+                $item->end_time_gmt = $this->addHour($item->end_time, 6);
+            }
+
+            if($item->student_start_time){
+                $item->student_start_time_gmt = $this->addHour($item->student_start_time, 6);
+            }
+
+            if($item->student_end_time){
+                $item->student_end_time_gmt = $this->addHour($item->student_end_time, 6);
+            }
+            
+            $get_time = "00:00:00";
+            if($item->start_time && $item->end_time){
+                $item->total_minutes = $this->getTimeDifference($item->start_time, $item->end_time);
+                $get_time = $this->getTimeDifference($item->start_time, $item->end_time);
+                array_push($times, $get_time);
+            }else{
+                $item->total_minutes = "00:00:00";
+            }
+
+            $is_student_time_exceeded = false;
+            $get_student_time = "00:00:00";
+
+            if($item->student_start_time && $item->student_end_time){
+                $item->student_total_minutes = $this->getTimeDifference($item->student_start_time, $item->student_end_time);
+
+                $get_student_time = $this->getTimeDifference($item->student_start_time, $item->student_end_time);
+                array_push($student_times, $get_student_time);
+
+                $is_student_time_exceeded = $this->isClassTimeExceeded($get_student_time);
+                $item->has_student_time_exceeded = $is_student_time_exceeded;
+            }
 
             $is_time_exceeded = $this->isClassTimeExceeded($get_time);
             $item->has_time_exceeded = $is_time_exceeded;
+
+
             if($is_time_exceeded){
                 $item->total_actual_minutes = "01:30:00";
                 array_push($actual_time, "01:30:00");
@@ -653,11 +694,21 @@ class ClassScheduleController extends Controller
                 $item->total_actual_minutes = $get_time;
             }
 
+            if($is_student_time_exceeded){
+                $item->student_total_actual_minutes = "01:30:00";
+                array_push($student_actual_time, "01:30:00");
+            }else{
+                array_push($student_actual_time, $get_student_time);
+                $item->student_total_actual_minutes = $get_student_time;
+            }
+
         }
 
         $response_data = [
             "total_time" => $this->calculateTime($times),
             "actual_total_time" => $this->calculateTime($actual_time),
+            "student_total_time" => $this->calculateTime($student_times),
+            "student_actual_total_time" => $this->calculateTime($student_actual_time),
             "list" => $class
         ];
 

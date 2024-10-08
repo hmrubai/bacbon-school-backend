@@ -910,6 +910,7 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::post('lc/paid-course-remove-mentor', 'TeacherController@removeMentorFromPaidCourse');
 
     Route::get('lc/paid-course-lc-students/{paid_course_id}', 'PaidCourseController@getPaidCourseLCStudentList');
+    Route::get('lc/paid-course-lc-students-by-mentor/{paid_course_id}/{mentor_id}', 'PaidCourseController@getPaidCourseLCStudentListByMentor');
     Route::get('lc/paid-course-students/{paid_course_id}', 'PaidCourseController@getPaidCourseStudentList');
     Route::post('lc/activate', 'PaidCourseController@activateLC');
     Route::post('lc/deactive', 'PaidCourseController@deactivateLC');

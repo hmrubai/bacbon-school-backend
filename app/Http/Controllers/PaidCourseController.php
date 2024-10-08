@@ -133,11 +133,24 @@ class PaidCourseController extends Controller
         return response()->json($response);
     }
     
-    public function getPaidCourseLCStudentList(Request $request){
+    public function getPaidCourseLCStudentList(Request $request)
+    {
         $students = PaidCourseParticipant::select("paid_course_participants.id as participant_id", "paid_course_participants.is_lc_activated", "users.id", "users.name", "users.mobile_number", "users.email")
         ->leftJoin('users', 'users.id', 'paid_course_participants.user_id')
         ->where('paid_course_participants.paid_course_id', $request->paid_course_id)
         ->get();
+
+        $response = new ResponseObject;
+        $response->status = $response::status_ok;
+        $response->messages = "Students listed successfully";
+        $response->data = $students;
+        return response()->json($response);
+    }
+
+    public function getPaidCourseLCStudentListByMentor(Request $request)
+    {
+        $student_ids = PaidCourseStudentMapping::where('mentor_id', $request->mentor_id)->where('paid_course_id', $request->paid_course_id)->pluck('student_id');
+        $students = User::select("users.id", "users.name", "users.mobile_number", "users.email")->whereIn("id", $student_ids)->get();
 
         $response = new ResponseObject;
         $response->status = $response::status_ok;
