@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 use Auth;
+use PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Mpdf\Mpdf;
 use Excel;
+
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
 use Exception;
 use App\User;
 use Carbon\Carbon;
@@ -3049,6 +3057,269 @@ class PaidCourseController extends Controller
         $response->result = $verifyController->getLoginData($user_id);
 
         return FacadeResponse::json($response);
+    }
+    
+    public function downloadPaidCourseQuizResultPdf(Request $request){
+        $response = new ResponseObject;
+
+        $result_data = ResultPaidCouresQuizAnswer::where('result_paid_coures_quiz_id', $request->paid_course_result_id)
+        ->select(
+            'result_paid_course_quiz_answers.*',
+            'result_paid_course_quiz_answers.answer',
+            'result_paid_course_quiz_answers.answer2',
+            'result_paid_course_quiz_answers.answer3',
+            'result_paid_course_quiz_answers.answer4',
+            'paid_course_quiz_questions.question',
+            'paid_course_quiz_questions.option1',
+            'paid_course_quiz_questions.option2',
+            'paid_course_quiz_questions.option3',
+            'paid_course_quiz_questions.option4',
+            'paid_course_quiz_questions.correct_answer',
+            'paid_course_quiz_questions.correct_answer2',
+            'paid_course_quiz_questions.correct_answer3',
+            'paid_course_quiz_questions.correct_answer4',
+        )
+        ->leftJoin('paid_course_quiz_questions', 'paid_course_quiz_questions.id', 'result_paid_course_quiz_answers.paid_course_quiz_question_id')
+        ->get();
+
+        $resultPaidCourseQuiz = ResultPaidCouresQuiz::where('id',$request->paid_course_result_id)->first();
+        $user = User::where('id', $resultPaidCourseQuiz->user_id)->first();
+        $data = ['title' => 'Quiz Result', 'student_name' => $user->name, 'result' => $result_data];
+
+        // $options = new Options();
+        // $options->set('isRemoteEnabled', true);
+        // $options->set('isFontSubsettingEnabled', true);
+        // $options->set('isHtml5ParserEnabled', true);            
+        // $dompdf = new Dompdf($options);          
+        
+        // $dompdf->getOptions()->setFontDir(public_path('fonts/'));
+        // $dompdf->getOptions()->setFontCache(public_path('fonts/'));
+        // $dompdf->getOptions()->set('defaultFont', 'SolaimanLipi');    
+        
+        // $dompdf->getOptions()->set('fontEncoding', 'utf-8');
+
+        $pdf = PDF::loadView('result/pc_quiz_result_pdf', $data);
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isFontSubsettingEnabled' => true]);
+        return $pdf->download($request->paid_course_result_id . '_pc_quiz_result.pdf');
+    }
+
+    public function downloadPCQuizResultmPdf(Request $request){
+        $response = new ResponseObject;
+
+        $result_data = ResultPaidCouresQuizAnswer::where('result_paid_coures_quiz_id', $request->paid_course_result_id)
+        ->select(
+            'result_paid_course_quiz_answers.*',
+            'result_paid_course_quiz_answers.answer',
+            'result_paid_course_quiz_answers.answer2',
+            'result_paid_course_quiz_answers.answer3',
+            'result_paid_course_quiz_answers.answer4',
+            'paid_course_quiz_questions.question',
+            'paid_course_quiz_questions.option1',
+            'paid_course_quiz_questions.option2',
+            'paid_course_quiz_questions.option3',
+            'paid_course_quiz_questions.option4',
+            'paid_course_quiz_questions.correct_answer',
+            'paid_course_quiz_questions.correct_answer2',
+            'paid_course_quiz_questions.correct_answer3',
+            'paid_course_quiz_questions.correct_answer4',
+            'paid_course_quiz_questions.explanation_text'
+        )
+        ->leftJoin('paid_course_quiz_questions', 'paid_course_quiz_questions.id', 'result_paid_course_quiz_answers.paid_course_quiz_question_id')
+        ->get();
+
+        $resultPaidCourseQuiz = ResultPaidCouresQuiz::where('id',$request->paid_course_result_id)->first();
+        $user = User::where('id', $resultPaidCourseQuiz->user_id)->first();
+        $data = [
+            'title' => 'Quiz Result', 
+            'student_name' => $user->name, 
+            'mobile' => $user->mobile_number, 
+            'result' => $result_data,
+            'total_questions' => sizeof($result_data),
+            'total_marks' => $resultPaidCourseQuiz->mark,
+            'written_marks' => $resultPaidCourseQuiz->written_marks,
+            'total_obtained_marks' => $resultPaidCourseQuiz->total_mark,
+            'result_status' => $resultPaidCourseQuiz->submission_status,
+        ];
+
+
+        $htmlContent = view('result/pc_quiz_result_pdf', $data)->render();
+        
+        $fontDir = storage_path('fonts');
+
+        if (!file_exists($fontDir . '/SolaimanLipi.ttf')) {
+            die('Font file not found: ' . $fontDir . '/SolaimanLipi.ttf');
+        }
+
+        $mpdf = new Mpdf([
+            'fontDir' => array_merge((new \Mpdf\Config\ConfigVariables())->getDefaults()['fontDir'], [
+                $fontDir  // Add your custom font directory here
+            ]),
+            'fontdata' => [
+                'solaimanlipi' => [  // Define the custom font
+                    'R' => 'SolaimanLipi.ttf',  // Regular font file
+                    'B' => 'SolaimanLipi.ttf',  // Bold (can be same if no separate bold)
+                ]
+            ],
+            'default_font' => 'solaimanlipi'  // Set default font to SolaimanLipi
+        ]);
+
+        $mpdf->WriteHTML($htmlContent);
+
+        $pdfOutput = $mpdf->Output('', 'S');  // 'S' returns the PDF as a string
+
+        // Return the PDF as a response with the appropriate headers
+        return response($pdfOutput)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="bangla_document.pdf"');
+    }
+
+    public function pcQuizResultExcelDownload(Request $request){
+        $response = new ResponseObject;
+        
+        // Fetch the result data
+        $result_data = ResultPaidCouresQuizAnswer::where('result_paid_coures_quiz_id', $request->paid_course_result_id)
+            ->select(
+                'paid_course_quiz_questions.question',
+                'paid_course_quiz_questions.option1',
+                'paid_course_quiz_questions.option2',
+                'paid_course_quiz_questions.option3',
+                'paid_course_quiz_questions.option4',
+                'result_paid_course_quiz_answers.answer',
+                'result_paid_course_quiz_answers.answer2',
+                'result_paid_course_quiz_answers.answer3',
+                'result_paid_course_quiz_answers.answer4',
+                'paid_course_quiz_questions.correct_answer',
+                'paid_course_quiz_questions.correct_answer2',
+                'paid_course_quiz_questions.correct_answer3',
+                'paid_course_quiz_questions.correct_answer4',
+                'paid_course_quiz_questions.explanation_text'
+            )
+            ->leftJoin('paid_course_quiz_questions', 'paid_course_quiz_questions.id', 'result_paid_course_quiz_answers.paid_course_quiz_question_id')
+            ->get();
+
+        // Fetch user and result summary data
+        $resultPaidCourseQuiz = ResultPaidCouresQuiz::where('id', $request->paid_course_result_id)->first();
+        $user = User::where('id', $resultPaidCourseQuiz->user_id)->first();
+        $summary = [
+            'name' => $user->name,
+            'phone' => $user->mobile_number,
+            'total_questions' => sizeof($result_data),
+            'obtained_marks' => $resultPaidCourseQuiz->mark,
+            'submission_status' => $resultPaidCourseQuiz->submission_status,
+        ];
+
+        // Prepare data for Excel (without options)
+        $data = [];
+        foreach ($result_data as $item) {
+            $data[] = [
+                'Question' => $item->question,
+                'Option 1' => $this->checkAnswer($item->answer, $item->correct_answer, 'A', $item->option1),
+                'Option 2' => $this->checkAnswer($item->answer2, $item->correct_answer2, 'B', $item->option2),
+                'Option 3' => $this->checkAnswer($item->answer3, $item->correct_answer3, 'C', $item->option3),
+                'Option 4' => $this->checkAnswer($item->answer4, $item->correct_answer4, 'D', $item->option4),
+                'Explanation Text' => $item->explanation_text, // Placed at the end
+            ];
+        }
+
+        // Define column headings
+        $headings = ['Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Explanation Text'];
+
+        // Generate Excel file with conditional styling and summary at the bottom
+        return Excel::download(new class($data, $headings, $summary) implements \Maatwebsite\Excel\Concerns\FromArray, \Maatwebsite\Excel\Concerns\WithHeadings, \Maatwebsite\Excel\Concerns\WithStyles, \Maatwebsite\Excel\Concerns\WithEvents {
+            private $data;
+            private $headings;
+            private $summary;
+
+            public function __construct($data, $headings, $summary)
+            {
+                $this->data = $data;
+                $this->headings = $headings;
+                $this->summary = $summary;
+            }
+
+            // Populate the Excel file with data
+            public function array(): array
+            {
+                return $this->data;
+            }
+
+            // Apply styles to the Excel sheet
+            public function styles(Worksheet $sheet)
+            {
+                // Color the answers based on their correctness
+                foreach ($this->data as $index => $row) {
+                    $rowIndex = $index + 2;  // Adjust for header row
+
+                    $sheet->getStyle("B$rowIndex")->getFont()->getColor()->setARGB($this->getAnswerColor($row['Option 1']));
+                    $sheet->getStyle("C$rowIndex")->getFont()->getColor()->setARGB($this->getAnswerColor($row['Option 2']));
+                    $sheet->getStyle("D$rowIndex")->getFont()->getColor()->setARGB($this->getAnswerColor($row['Option 3']));
+                    $sheet->getStyle("E$rowIndex")->getFont()->getColor()->setARGB($this->getAnswerColor($row['Option 4']));
+                }
+            }
+
+            // Define the headings for the data section
+            public function headings(): array
+            {
+                return $this->headings;
+            }
+
+            // Add summary information at the bottom of the Excel sheet
+            public function registerEvents(): array
+            {
+                return [
+                    \Maatwebsite\Excel\Events\AfterSheet::class => function (\Maatwebsite\Excel\Events\AfterSheet $event) {
+                        $sheet = $event->sheet->getDelegate();
+
+                        // Calculate the row number where the summary will be placed
+                        $summaryStartRow = count($this->data) + 3;  // +3 for headings and some padding
+
+                        // Add the summary information at the bottom
+                        $sheet->setCellValue("A{$summaryStartRow}", 'MCQ Result Summary');
+                        $sheet->setCellValue("A" . ($summaryStartRow + 1), 'Name');
+                        $sheet->setCellValue("B" . ($summaryStartRow + 1), $this->summary['name']);
+                        $sheet->setCellValue("A" . ($summaryStartRow + 2), 'Phone No.');
+                        $sheet->setCellValue("B" . ($summaryStartRow + 2), $this->summary['phone']);
+                        $sheet->setCellValue("A" . ($summaryStartRow + 3), 'Number of Questions');
+                        $sheet->setCellValue("B" . ($summaryStartRow + 3), $this->summary['total_questions']);
+                        $sheet->setCellValue("A" . ($summaryStartRow + 4), 'Obtained Marks in MCQ');
+                        $sheet->setCellValue("B" . ($summaryStartRow + 4), $this->summary['obtained_marks']);
+                        $sheet->setCellValue("A" . ($summaryStartRow + 5), 'Submission Status');
+                        $sheet->setCellValue("B" . ($summaryStartRow + 5), $this->summary['submission_status']);
+
+                        // Set the summary rows' font to bold
+                        $sheet->getStyle("A{$summaryStartRow}:B" . ($summaryStartRow + 5))->getFont()->setBold(true);
+                    }
+                ];
+            }
+
+            // Helper function to determine the answer color
+            private function getAnswerColor($answer)
+            {
+                if (strpos($answer, '(Correct Choice)') !== false) {
+                    return \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_GREEN;
+                } elseif (strpos($answer, '(Student\'s Choice)') !== false) {
+                    return \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED;
+                }
+                return \PhpOffice\PhpSpreadsheet\Style\Color::COLOR_BLACK;
+            }
+        }, 'quiz_results.xlsx');
+
+    }
+
+    private function checkAnswer($answer, $correctAnswer, $optionLabel, $optionValue)
+    {
+        if ($answer === $correctAnswer && $answer !== null) {
+            // Correct answer
+            return "{$optionLabel}. {$optionValue} (Correct Choice)";
+        } elseif ($answer !== null && $answer !== $correctAnswer) {
+            // Student's choice but wrong
+            return "{$optionLabel}. {$optionValue} (Student's Choice)";
+        } elseif ($answer === null && $correctAnswer !== null) {
+            // Correct answer but not selected by the student
+            return "{$optionLabel}. {$optionValue} (Correct Choice)";
+        } else {
+            return "{$optionLabel}. {$optionValue}";
+        }
     }
 
     public function getSubjectWiseResult(Request $request)

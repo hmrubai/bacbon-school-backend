@@ -892,6 +892,9 @@ Route::group(['middleware' => ['jwt.verify']], function () {
 
 
     Route::get('paid-course/test-result-excel/{paid_course_material_id}', 'PaidCourseController@getPaidCourseTestResult');
+    Route::get('paid-course/download-pc-quiz-result-pdf/{paid_course_result_id}', 'PaidCourseController@downloadPCQuizResultmPdf');
+    Route::get('paid-course/download-pc-quiz-result-excel/{paid_course_result_id}', 'PaidCourseController@pcQuizResultExcelDownload');
+
     Route::get('paid-course/coupon-uses-report', 'PaidCourseController@getPaidCourseCouponUsesReport');
     Route::get('paid-course/download-coupon-list', 'PaidCourseController@downloadCouponList');
 
