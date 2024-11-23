@@ -64,6 +64,10 @@ class User extends Authenticatable implements JWTSubject
         ->select('result_lectures.*', 'lecture_exams.exam_name', 'courses.name');
     }
 
+    public function results()
+    {
+        return $this->hasMany(ResultPaidCouresQuizAnswer::class, 'user_id');
+    }
 
     public function fcmMessage() {
         return $this->hasMany('App\UserFCMMessage', 'user_id', 'id');

@@ -658,6 +658,10 @@ class ClassScheduleController extends Controller
 
             if($item->student_end_time){
                 $item->student_end_time_gmt = $this->addHour($item->student_end_time, 6);
+            }else{
+                if($item->end_time){
+                    $item->student_end_time_gmt = $this->addHour($item->end_time, 6);
+                }
             }
             
             $get_time = "00:00:00";
@@ -676,6 +680,16 @@ class ClassScheduleController extends Controller
                 $item->student_total_minutes = $this->getTimeDifference($item->student_start_time, $item->student_end_time);
 
                 $get_student_time = $this->getTimeDifference($item->student_start_time, $item->student_end_time);
+                array_push($student_times, $get_student_time);
+
+                $is_student_time_exceeded = $this->isClassTimeExceeded($get_student_time);
+                $item->has_student_time_exceeded = $is_student_time_exceeded;
+            }
+
+            if($item->student_start_time && !$item->student_end_time && $item->end_time){
+                $item->student_total_minutes = $this->getTimeDifference($item->student_start_time, $item->end_time);
+
+                $get_student_time = $this->getTimeDifference($item->student_start_time, $item->end_time);
                 array_push($student_times, $get_student_time);
 
                 $is_student_time_exceeded = $this->isClassTimeExceeded($get_student_time);

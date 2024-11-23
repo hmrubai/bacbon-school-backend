@@ -231,7 +231,8 @@ class TeacherController extends Controller
         $teachers = PaidCourseMentor::select("paid_course_mentors.*", "users.name", "users.mobile_number", "users.email")
         ->where('paid_course_mentors.paid_course_id', $paid_course_id)
         ->leftJoin('users', 'users.id', 'paid_course_mentors.user_id')
-        ->orderby('paid_course_mentors.id', 'DESC')->get();
+        ->orderby('users.name', 'ASC')
+        ->get();
         
         $response->status = $response::status_ok;
         $response->messages = "Teacher listed successfully";

@@ -41,6 +41,9 @@ use App\ResultPaidCourseWrittenMark;
 use App\ResultPaidCourseQuizSubjectWiseAnswer;
 use App\ResultPaidCourseWrittenAttachment;
 use App\UserAllPaymentDetails;
+
+use App\Exports\StudentExamResultExport;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Response as FacadeResponse;
@@ -3211,18 +3214,40 @@ class PaidCourseController extends Controller
         // Prepare data for Excel (without options)
         $data = [];
         foreach ($result_data as $item) {
+            $is_skipped = "";
+            if(!$item->answer && !$item->answer2 && !$item->answer3 && !$item->answer4){
+                $is_skipped = "Skipped";
+            }else{
+                $options = [];
+                if($item->answer){
+                    array_push($options, 'A');
+                }
+                if($item->answer2){
+                    array_push($options, 'B');
+                }
+                if($item->answer3){
+                    array_push($options, 'C');
+                }
+                if($item->answer4){
+                    array_push($options, 'D');
+                }
+
+                $is_skipped = implode(', ', $options);
+            }
+
             $data[] = [
                 'Question' => $item->question,
                 'Option 1' => $this->checkAnswer($item->answer, $item->correct_answer, 'A', $item->option1),
                 'Option 2' => $this->checkAnswer($item->answer2, $item->correct_answer2, 'B', $item->option2),
                 'Option 3' => $this->checkAnswer($item->answer3, $item->correct_answer3, 'C', $item->option3),
                 'Option 4' => $this->checkAnswer($item->answer4, $item->correct_answer4, 'D', $item->option4),
+                'Student Answer' => $is_skipped,
                 'Explanation Text' => $item->explanation_text, // Placed at the end
             ];
         }
 
         // Define column headings
-        $headings = ['Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Explanation Text'];
+        $headings = ['Question', 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Student Answer', 'Explanation Text'];
 
         // Generate Excel file with conditional styling and summary at the bottom
         return Excel::download(new class($data, $headings, $summary) implements \Maatwebsite\Excel\Concerns\FromArray, \Maatwebsite\Excel\Concerns\WithHeadings, \Maatwebsite\Excel\Concerns\WithStyles, \Maatwebsite\Excel\Concerns\WithEvents {
@@ -3304,6 +3329,22 @@ class PaidCourseController extends Controller
             }
         }, 'quiz_results.xlsx');
 
+    }
+
+    public function downloadAllStudentResultsInExcel(Request $request)
+    {
+        $response = new ResponseObject;
+
+        $paid_course_meterial_id = $request->paid_course_meterial_id;
+
+        if (!$paid_course_meterial_id) {
+            return redirect()->back()->with('error', 'Invalid Quiz ID.');
+        }
+
+        $quiz_info = PaidCourseMaterial::where('id', $paid_course_meterial_id)->first();
+        $download_file_name = $quiz_info->name . " - all_student_results_excel.xlsx";
+
+        return Excel::download(new StudentExamResultExport($paid_course_meterial_id), $download_file_name);
     }
 
     private function checkAnswer($answer, $correctAnswer, $optionLabel, $optionValue)
