@@ -409,7 +409,7 @@ class LogLectureVideoController extends Controller
                         'user_id' => $item['user_id'],
                         'duration' => $item['duration'],
                         'start_position' => $item['start_position'],
-                        'end_position' => $item['end_position'],
+                        'end_position' => $item['end_position'] ?? 0,
                         'start_time' => date('Y-m-d H:i:s', strtotime($item['start_time'])),
                         'end_time' =>date('Y-m-d H:i:s', strtotime($item['end_time'])),
                         'is_skipped' => $item['is_skipped']

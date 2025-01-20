@@ -88,6 +88,24 @@ class PaidCourseController extends Controller
         return FacadeResponse::json($response);
     }
 
+    public function getAllProfessionalCourse()
+    {
+        $response = new ResponseObject;
+
+        $all_courses = PaidCourse::where('is_active', true)
+        ->where('course_type', 'professionalCourse')
+        ->orderby('id', 'desc')->get();
+
+        foreach ($all_courses as $item) {
+            $item->features = PaidCourseFeature::where('paid_course_id', $item->id)->get();
+        }
+
+        $response->status = $response::status_ok;
+        $response->messages = "Successful";
+        $response->result = $all_courses;
+        return FacadeResponse::json($response);
+    }
+
     public function getAllPaidCourseForMobile(Request $request)
     {
         $user_id = $request->user_id ? $request->user_id : 0;

@@ -766,6 +766,9 @@ Route::get('web/get-otp-details/{mobile}', 'APILoginController@GetOTPForDB');
 
 Route::get('mobile/getNestedCourseStructureList', 'SubjectController@getNestedCourseStructureList');
 
+// Professional Course
+Route::get('web/paid-course/professional-courses', 'PaidCourseController@getAllProfessionalCourse');
+
 Route::group(['prefix' => 'mobile'], function () {
     Route::get('paid-course/all-paid-courses/{user_id}', 'PaidCourseController@getAllPaidCourseForMobile');
     Route::get('paid-course/all-paid-courses/{user_id}/{course_type}', 'PaidCourseController@getAllPaidCourseForMobile');
